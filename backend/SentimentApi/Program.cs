@@ -8,7 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ✅ SQLite veritabanı bağlantısı (appsettings.json -> "Default")
+// ✅ SQLite veritabanı bağlantısı
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(
         builder.Configuration.GetConnectionString("Default")
@@ -16,7 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
-// ✅ CORS (frontend için izinler)
+// ✅ CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -31,32 +31,30 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
     });
 
-    // Geniş izinli test politikası (isteğe bağlı)
     options.AddPolicy("AllowAll", policy =>
     {
-        policy
-            .AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
 
 var app = builder.Build();
 
-// ✅ CORS aktif (önce)
+// ✅ CORS aktif
 app.UseCors("AllowFrontend");
 
-// ✅ Swagger sadece development ortamında
+// ✅ Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Authorization (şimdilik gerek yok ama hazır)
 app.UseAuthorization();
 
-// ✅ Controller endpoint’lerini bağla
+// ✅ Ana sayfa için test endpoint (Render'da görünür olacak)
+app.MapGet("/", () => "🚀 Sentiment API is running on Render!");
+
+// ✅ Controller endpoint’leri
 app.MapControllers();
 
 // ✅ Uygulamayı çalıştır
