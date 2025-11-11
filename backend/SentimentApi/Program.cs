@@ -57,5 +57,19 @@ app.MapGet("/", () => "🚀 Sentiment API is running on Render!");
 // ✅ Controller endpoint’leri
 app.MapControllers();
 
+// ✅ Veritabanı migrationlarını otomatik uygula (Render için)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
+
+
+
+
+
+
+
 // ✅ Uygulamayı çalıştır
 app.Run();
