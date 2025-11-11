@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "PeeFquz6r04p8GcyHBHf84TA0ogyfWA5mvG+AgTcSVo=",
+  "Source": "SentimentApi",
+  "BasePath": "_content/SentimentApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
