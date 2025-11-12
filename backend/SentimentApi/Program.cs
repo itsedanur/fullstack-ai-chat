@@ -25,7 +25,7 @@ builder.Services.AddCors(options =>
                 "http://localhost:3000",
                 "http://localhost:3001",
                 "http://localhost:3002",
-                "https://fullstack-ai-chat-six.vercel.app" // 🔥 Vercel domaini eklendi
+                "https://fullstack-ai-chat-six.vercel.app"
             )
             .AllowAnyHeader()
             .AllowAnyMethod();
@@ -34,25 +34,27 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// ✅ CORS aktif et
-app.UseCors("AllowFrontend");
-
-// ✅ Swagger
+// ✅ Middleware sırası çok önemli!
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection(); // (isteğe bağlı ama önerilir)
+app.UseRouting();          // CORS öncesinde olmalı
+
+app.UseCors("AllowFrontend"); // ✅ TAM BURADA OLMALI
+
 app.UseAuthorization();
 
-// ✅ Ana sayfa için test endpoint (Render'da görünür olacak)
+// ✅ Ana sayfa testi
 app.MapGet("/", () => "🚀 Sentiment API is running on Render!");
 
 // ✅ Controller endpoint’leri
 app.MapControllers();
 
-// ✅ Veritabanı migrationlarını otomatik uygula (Render için)
+// ✅ Veritabanı migrationlarını otomatik uygula
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
