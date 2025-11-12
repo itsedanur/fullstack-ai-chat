@@ -41,7 +41,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection(); // (isteğe bağlı ama önerilir)
+//app.UseHttpsRedirection(); // (isteğe bağlı ama önerilir)
 app.UseRouting();          // CORS öncesinde olmalı
 
 app.UseCors("AllowFrontend"); // ✅ TAM BURADA OLMALI
