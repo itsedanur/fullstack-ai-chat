@@ -8,7 +8,9 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   // 🌐 API bağlantısı (Render)
-  const API_URL = `${process.env.REACT_APP_API_URL}/api/messages`;
+
+  const API_URL = "https://sentimentchatapi.onrender.com/api/messages";
+
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -56,7 +58,7 @@ function App() {
             {msg.text}
           </div>
         ))}
-      </div
+      </div>
 
       <div className="input-row">
         <input
