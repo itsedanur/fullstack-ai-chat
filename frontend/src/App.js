@@ -21,15 +21,27 @@ function App() {
     try {
       // 🔁 API'ye mesaj gönder
       const response = await axios.post(API_URL, { text: userMsg.text });
-      const sentiment = response.data.sentiment || "Bilinmiyor";
+      const rawSentiment = response.data.sentiment || "Bilinmiyor";
 
-      // 🎨 Renkleri belirle
+      // 🔍 Sadece ilk kelimeyi al (örnek: "neutral (0.72...)" → "neutral")
+      const sentiment = rawSentiment.split(" ")[0].toLowerCase();
+
+      // 🎨 Türkçe çeviri ve renk
+      let translated = "Bilinmiyor 🤔";
       let bgColor = "#e9ecef";
-      if (sentiment.toLowerCase().includes("positive")) bgColor = "#b7e3b0";
-      else if (sentiment.toLowerCase().includes("negative")) bgColor = "#f5b7b1";
-      else if (sentiment.toLowerCase().includes("neutral")) bgColor = "#d6d8d9";
 
-      const botMsg = { text: sentiment, sender: "bot", bgColor };
+      if (sentiment.includes("positive")) {
+        translated = "Pozitif 😊";
+        bgColor = "#b7e3b0";
+      } else if (sentiment.includes("negative")) {
+        translated = "Negatif 😞";
+        bgColor = "#f5b7b1";
+      } else if (sentiment.includes("neutral")) {
+        translated = "Nötr 😐";
+        bgColor = "#d6d8d9";
+      }
+
+      const botMsg = { text: translated, sender: "bot", bgColor };
       setMessages((prev) => [...prev, botMsg]);
     } catch (error) {
       console.error("❌ API Hatası:", error);
