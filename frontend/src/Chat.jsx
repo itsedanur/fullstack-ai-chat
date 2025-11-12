@@ -6,6 +6,9 @@ export default function Chat() {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // .env'den backend adresini alıyoruz
+  const API_URL = process.env.REACT_APP_API_BASE;
+
   const translateSentiment = (english) => {
     if (!english) return "belirsiz";
     english = english.toLowerCase();
@@ -31,7 +34,8 @@ export default function Chat() {
     setMessages((prev) => [...prev, { sender: "user", text }]);
 
     try {
-      const response = await axios.post("http://localhost:5252/api/messages", {
+      // 🌐 Render'daki backend adresini otomatik kullanır
+      const response = await axios.post(`${API_URL}/messages`, {
         Text: text,
       });
 

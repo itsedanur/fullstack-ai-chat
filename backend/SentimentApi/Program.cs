@@ -16,30 +16,25 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
-// ✅ CORS
+// ✅ CORS yapılandırması
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy
-            .WithOrigins(
+        policy.WithOrigins(
                 "http://localhost:3000",
                 "http://localhost:3001",
-                "http://localhost:3002"
+                "http://localhost:3002",
+                "https://fullstack-ai-chat-six.vercel.app" // 🔥 Vercel domaini eklendi
             )
             .AllowAnyHeader()
             .AllowAnyMethod();
-    });
-
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
 
 var app = builder.Build();
 
-// ✅ CORS aktif
+// ✅ CORS aktif et
 app.UseCors("AllowFrontend");
 
 // ✅ Swagger
@@ -63,13 +58,6 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
-
-
-
-
-
-
-
 
 // ✅ Uygulamayı çalıştır
 app.Run();
