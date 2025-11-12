@@ -23,22 +23,13 @@ function App() {
       const response = await axios.post(API_URL, { text: userMsg.text });
       const sentiment = response.data.sentiment || "Bilinmiyor";
 
-      // 🎨 Renkleri belirle ve Türkçeleştir
+      // 🎨 Renkleri belirle
       let bgColor = "#e9ecef";
-      let sentimentText = sentiment;
+      if (sentiment.toLowerCase().includes("positive")) bgColor = "#b7e3b0";
+      else if (sentiment.toLowerCase().includes("negative")) bgColor = "#f5b7b1";
+      else if (sentiment.toLowerCase().includes("neutral")) bgColor = "#d6d8d9";
 
-      if (sentiment.toLowerCase().includes("positive")) {
-        bgColor = "#b7e3b0";
-        sentimentText = "Pozitif 😊";
-      } else if (sentiment.toLowerCase().includes("negative")) {
-        bgColor = "#f5b7b1";
-        sentimentText = "Negatif 😞";
-      } else if (sentiment.toLowerCase().includes("neutral")) {
-        bgColor = "#d6d8d9";
-        sentimentText = "Nötr 😐";
-      }
-
-      const botMsg = { text: sentimentText, sender: "bot", bgColor };
+      const botMsg = { text: sentiment, sender: "bot", bgColor };
       setMessages((prev) => [...prev, botMsg]);
     } catch (error) {
       console.error("❌ API Hatası:", error);
@@ -65,7 +56,7 @@ function App() {
             {msg.text}
           </div>
         ))}
-      </div>
+      </div
 
       <div className="input-row">
         <input
@@ -87,4 +78,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
