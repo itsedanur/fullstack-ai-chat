@@ -16,16 +16,23 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
-// ✅ CORS yapılandırması (düzeltilmiş)
+// ✅ CORS yapılandırması (Render + localhost)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
+            // 💻 Lokal geliştirme ortamları
             "http://localhost:3000",
             "http://localhost:3001",
             "http://localhost:3002",
+
+            // 🌐 Frontend Render URL'leri (React)
+            "https://fullstack-ai-chat-1-eaa8.onrender.com",
+            "https://fullstack-ai-chat-frontend.onrender.com",
             "https://fullstack-ai-chat-six.vercel.app",
+
+            // 🌐 Backend Render URL'si (API)
             "https://fullstack-ai-chat-s4e1.onrender.com"
         )
         .AllowAnyHeader()
@@ -42,9 +49,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// app.UseHttpsRedirection(); // opsiyonel
+// app.UseHttpsRedirection(); // opsiyonel ama Render bazen SSL’i kendi ekler
 app.UseRouting();
 
+// ✅ CORS middleware aktif
 app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
