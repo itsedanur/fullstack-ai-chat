@@ -9,7 +9,9 @@ function App() {
 
   // 🌐 API bağlantısı (Render)
 
-  const API_URL = "https://sentimentchatapi.onrender.com/api/messages";
+ 
+  const API_URL = "https://sentimentapi.onrender.com/api/messages";
+
 
 
   const sendMessage = async () => {
