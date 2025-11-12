@@ -16,39 +16,40 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
-// ✅ CORS yapılandırması
+// ✅ CORS yapılandırması (düzeltilmiş)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
-                "http://localhost:3000",
-                "http://localhost:3001",
-                "http://localhost:3002",
-                "https://fullstack-ai-chat-six.vercel.app"
-            )
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+            "http://localhost:3000",
+            "http://localhost:3001",
+            "http://localhost:3002",
+            "https://fullstack-ai-chat-six.vercel.app",
+            "https://fullstack-ai-chat-s4e1.onrender.com"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
     });
 });
 
 var app = builder.Build();
 
-// ✅ Middleware sırası çok önemli!
+// ✅ Middleware sırası çok önemli
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection(); // (isteğe bağlı ama önerilir)
-app.UseRouting();          // CORS öncesinde olmalı
+// app.UseHttpsRedirection(); // opsiyonel
+app.UseRouting();
 
-app.UseCors("AllowFrontend"); // ✅ TAM BURADA OLMALI
+app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
 
-// ✅ Ana sayfa testi
+// ✅ Test endpoint
 app.MapGet("/", () => "🚀 Sentiment API is running on Render!");
 
 // ✅ Controller endpoint’leri
